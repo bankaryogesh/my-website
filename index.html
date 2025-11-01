@@ -434,6 +434,11 @@
                     <div class="success-message" id="successMessage">Thank you! Starting download...</div>
                   </form>
                 </div>
+                <div id="loadingSpinner" style="display:none;">
+                  <div class="spinner"></div>
+                  <p>Please wait…</p>
+                </div>
+
               </div>
 
               <script>
@@ -442,6 +447,9 @@
                 const openModalBtn = document.getElementById("openModal");
                 const closeModalBtn = document.getElementById("closeModal");
                 const successMessage = document.getElementById("successMessage");
+
+                // New spinner element (make sure to add CSS for it below)
+                const spinner = document.getElementById("loadingSpinner");
 
                 openModalBtn.onclick = () => modal.style.display = "flex";
                 closeModalBtn.onclick = () => modal.style.display = "none";
@@ -456,27 +464,37 @@
                   if (!name || !email) return alert("Please fill in all fields.");
 
                   try {
+                    // Show spinner
+                    spinner.style.display = "block";
+
                     // Save data to Google Sheet
-                    await fetch("YOUR_GOOGLE_SCRIPT_URL_HERE", {
+                    await fetch("https://script.google.com/macros/s/AKfycbwO_DatUyE7neLABs8mnh2y_tRvvtNG9l_xdeFMwDQFgEdaniQMhEC1dFcYKQfXDQ6xaw/exec", {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
                       body: JSON.stringify({ name, email })
                     });
 
+                    // Hide spinner
+                    spinner.style.display = "none";
+
                     // Show success message
                     successMessage.style.display = "block";
 
-                    // Delay a bit, then start download and close modal
+                    // Delay briefly, then start download and close modal
                     setTimeout(() => {
                       const link = document.createElement("a");
-                      link.href = "assets/resume.pdf"; // Update this path if needed
-                      link.download = "Your_Name_Resume.pdf";
+                      link.href = "/assets/resume-yogesh-bankar.pdf";
+                      link.download = "resume-yogesh-bankar.pdf";
+                      document.body.appendChild(link);
                       link.click();
+                      document.body.removeChild(link);
+
                       modal.style.display = "none";
                       successMessage.style.display = "none";
                     }, 1500);
                   } catch (err) {
                     console.error(err);
+                    spinner.style.display = "none";
                     alert("⚠️ There was an issue saving your info. Please try again.");
                   }
                 });
