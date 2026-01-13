@@ -410,98 +410,13 @@
 
       <class="container">
         <div class="row">
-          <div class="col-lg-12" data-aos="fade-up" data-aos-delay="300">
-
-            <ul>
-              <title>Download My Resume</title>
-              </head>
-              <div class="text-center">
-                <!-- <h2>Download my resume</h2> -->
-              </div>
-              <div class="text-center">
-                <button class="btn-primary" id="openModal">Download Resume</button>
-              </div>
-              <!-- Modal -->
-              <div id="downloadModal" class="modal">
-                <div class="modal-content">
-                  <span class="close" id="closeModal">&times;</span>
-                  <h3>Get My Resume</h3>
-                  <form id="downloadForm">
-                    <input type="text" id="name" placeholder="Your Name" required />
-                    <input type="email" id="email" placeholder="Your Email" required />
-                    <button type="submit" class="btn-submit">Download</button>
-                    <div class="success-message" id="successMessage">Thank you! Starting download...</div>
-                  </form>
-                </div>
-                <div id="loadingSpinner" style="display:none;">
-                  <div class="spinner"></div>
-                  <p>Please wait…</p>
-                </div>
-
-              </div>
-
-              <script>
-                // Modal open/close
-                const modal = document.getElementById("downloadModal");
-                const openModalBtn = document.getElementById("openModal");
-                const closeModalBtn = document.getElementById("closeModal");
-                const successMessage = document.getElementById("successMessage");
-
-                // New spinner element (make sure to add CSS for it below)
-                const spinner = document.getElementById("loadingSpinner");
-
-                openModalBtn.onclick = () => modal.style.display = "flex";
-                closeModalBtn.onclick = () => modal.style.display = "none";
-                window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
-
-                // Form submit logic
-                document.getElementById("downloadForm").addEventListener("submit", async function (e) {
-                  e.preventDefault();
-                  const name = document.getElementById("name").value.trim();
-                  const email = document.getElementById("email").value.trim();
-
-                  if (!name || !email) return alert("Please fill in all fields.");
-
-                  try {
-                    // Show spinner
-                    spinner.style.display = "block";
-
-                    // Save data to Google Sheet
-                    await fetch("https://script.google.com/macros/s/AKfycbyAlg7SVqgix6lzfXFr-00Nh63N328u1T6qSZwbJLxOcMily-I-CjJMJa3zwunVRTV6oA/exec", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ name, email })
-                    });
-
-                    // Hide spinner
-                    spinner.style.display = "none";
-
-                    // Show success message
-                    successMessage.style.display = "block";
-
-                    // Delay briefly, then start download and close modal
-                    setTimeout(() => {
-                      const link = document.createElement("a");
-                      link.href = "https://yogesh-bankar.is-a.dev/assets/resume-yogesh-bankar.pdf";
-                      link.download = "resume-yogesh-bankar.pdf";
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-
-                      modal.style.display = "none";
-                      successMessage.style.display = "none";
-                    }, 1500);
-                  } catch (err) {
-                    console.error(err);
-                    spinner.style.display = "none";
-                    alert("⚠️ Please send your name in chat box & request for resume.");
-                  }
-                });
-              </script>
-
-            </ul>
+          <div class="col-lg-12 text-center" data-aos="fade-up" data-aos-delay="300">
+            <a href="assets/resume-yogesh-bankar.pdf" download="Yogesh-Bankar-Resume.pdf" class="btn btn-primary">
+              Download Resume
+            </a>
           </div>
         </div>
+
 
     </section> <!--/Resume Section -->
 
